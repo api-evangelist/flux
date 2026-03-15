@@ -1,0 +1,15 @@
+name: Flux
+description: An open-source text-to-image AI model developed by Black Forest Labs
+  that generates high-quality images from text prompts with improved prompt following
+  and visual quality.
+url: https://blackforestlabs.ai/
+tags:
+- AI
+- Image Generation
+- Machine Learning
+- Text To Image
+- Open Source
+created: '2025'
+modified: '2025'
+apis: []
+common: []
