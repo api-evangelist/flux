@@ -1,0 +1,131 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "flux": "https://docs.bfl.ai/schemas/",
+    "schema": "https://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "dcterms": "http://purl.org/dc/terms/",
+    "oa": "http://www.w3.org/ns/oa#",
+
+    "ImageGenerationRequest": {
+      "@id": "flux:ImageGenerationRequest",
+      "@context": {
+        "prompt": {
+          "@id": "schema:description",
+          "@type": "xsd:string"
+        },
+        "width": {
+          "@id": "schema:width",
+          "@type": "xsd:integer"
+        },
+        "height": {
+          "@id": "schema:height",
+          "@type": "xsd:integer"
+        },
+        "aspect_ratio": {
+          "@id": "schema:size",
+          "@type": "xsd:string"
+        },
+        "steps": {
+          "@id": "flux:inferenceSteps",
+          "@type": "xsd:integer"
+        },
+        "guidance": {
+          "@id": "flux:guidanceScale",
+          "@type": "xsd:decimal"
+        },
+        "seed": {
+          "@id": "flux:randomSeed",
+          "@type": "xsd:integer"
+        },
+        "output_format": {
+          "@id": "schema:encodingFormat",
+          "@type": "xsd:string"
+        },
+        "safety_tolerance": {
+          "@id": "flux:safetyLevel",
+          "@type": "xsd:integer"
+        }
+      }
+    },
+
+    "ImageEditRequest": {
+      "@id": "flux:ImageEditRequest",
+      "@context": {
+        "prompt": {
+          "@id": "oa:hasBody",
+          "@type": "xsd:string"
+        },
+        "image": {
+          "@id": "schema:image",
+          "@type": "xsd:string"
+        },
+        "steps": {
+          "@id": "flux:inferenceSteps",
+          "@type": "xsd:integer"
+        },
+        "guidance": {
+          "@id": "flux:guidanceScale",
+          "@type": "xsd:decimal"
+        },
+        "seed": {
+          "@id": "flux:randomSeed",
+          "@type": "xsd:integer"
+        }
+      }
+    },
+
+    "GenerationTask": {
+      "@id": "schema:Action",
+      "@context": {
+        "id": {
+          "@id": "schema:identifier",
+          "@type": "xsd:string"
+        },
+        "status": {
+          "@id": "schema:actionStatus",
+          "@type": "xsd:string"
+        },
+        "polling_url": {
+          "@id": "schema:url",
+          "@type": "@id"
+        }
+      }
+    },
+
+    "GenerationResult": {
+      "@id": "schema:ImageObject",
+      "@context": {
+        "sample": {
+          "@id": "schema:contentUrl",
+          "@type": "@id"
+        },
+        "prompt": {
+          "@id": "schema:description",
+          "@type": "xsd:string"
+        },
+        "seed": {
+          "@id": "flux:randomSeed",
+          "@type": "xsd:integer"
+        }
+      }
+    },
+
+    "FluxModel": {
+      "@id": "schema:SoftwareApplication",
+      "@context": {
+        "name": "schema:name",
+        "version": "schema:softwareVersion",
+        "description": "schema:description",
+        "license": {
+          "@id": "schema:license",
+          "@type": "@id"
+        },
+        "provider": {
+          "@id": "schema:provider",
+          "@type": "@id"
+        }
+      }
+    }
+  }
+}

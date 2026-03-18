@@ -1,0 +1,181 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/api-evangelist/flux/blob/main/json-schema/flux-generation-request-schema.json",
+  "title": "Flux Image Generation Request",
+  "description": "JSON Schema for image generation requests submitted to the Black Forest Labs Flux API. Covers the common parameters shared across FLUX model variants and the asynchronous task response format.",
+  "type": "object",
+  "required": ["prompt"],
+  "properties": {
+    "prompt": {
+      "type": "string",
+      "description": "Text description of the image to generate. Detailed prompts with subject, style, lighting, and composition details yield the best results.",
+      "maxLength": 10000
+    },
+    "width": {
+      "type": "integer",
+      "description": "Width of the output image in pixels. Must be a multiple of 32. Used with height for standard generation endpoints.",
+      "minimum": 256,
+      "maximum": 1440
+    },
+    "height": {
+      "type": "integer",
+      "description": "Height of the output image in pixels. Must be a multiple of 32.",
+      "minimum": 256,
+      "maximum": 1440
+    },
+    "aspect_ratio": {
+      "type": "string",
+      "description": "Aspect ratio for Ultra model generation. Used instead of explicit width/height.",
+      "enum": ["21:9", "16:9", "4:3", "3:2", "1:1", "2:3", "3:4", "9:16", "9:21"]
+    },
+    "steps": {
+      "type": "integer",
+      "description": "Number of diffusion inference steps. More steps increase quality but also processing time.",
+      "minimum": 1,
+      "maximum": 50
+    },
+    "guidance": {
+      "type": "number",
+      "description": "Classifier-free guidance scale. Higher values adhere more closely to the prompt; lower values allow more creative variation.",
+      "minimum": 1.5,
+      "maximum": 10.0
+    },
+    "seed": {
+      "type": "integer",
+      "description": "Random seed for reproducible generation. Omit for a random seed.",
+      "minimum": 0
+    },
+    "safety_tolerance": {
+      "type": "integer",
+      "description": "Content safety filter level from 0 (most restrictive) to 6 (least restrictive). Default is 2.",
+      "minimum": 0,
+      "maximum": 6,
+      "default": 2
+    },
+    "output_format": {
+      "type": "string",
+      "description": "Output image file format.",
+      "enum": ["jpeg", "png"],
+      "default": "jpeg"
+    },
+    "prompt_upsampling": {
+      "type": "boolean",
+      "description": "Whether to automatically enhance the prompt using an LLM before generation.",
+      "default": false
+    },
+    "raw": {
+      "type": "boolean",
+      "description": "Ultra model only. If true, produces more natural photorealistic images without additional artistic processing.",
+      "default": false
+    }
+  },
+  "$defs": {
+    "TaskResponse": {
+      "type": "object",
+      "title": "TaskResponse",
+      "description": "Response returned immediately when a generation or editing request is submitted. The caller must poll the get_result endpoint with the returned ID.",
+      "required": ["id"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Unique task identifier. Use this to poll GET /v1/get_result?id={id}."
+        },
+        "polling_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Pre-built polling URL for convenience."
+        }
+      }
+    },
+    "ResultResponse": {
+      "type": "object",
+      "title": "ResultResponse",
+      "description": "Response from polling the generation result. When status is Ready, the result contains a download URL.",
+      "required": ["id", "status"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Task identifier matching the original request."
+        },
+        "status": {
+          "type": "string",
+          "description": "Current task status. Poll until Ready or an error state.",
+          "enum": ["Pending", "Processing", "Ready", "Error", "Content Moderated", "Request Moderated"]
+        },
+        "result": {
+          "$ref": "#/$defs/GenerationResult"
+        }
+      }
+    },
+    "GenerationResult": {
+      "type": "object",
+      "title": "GenerationResult",
+      "description": "The successful output of a completed image generation or editing task.",
+      "properties": {
+        "sample": {
+          "type": "string",
+          "format": "uri",
+          "description": "Pre-signed URL to download the generated or edited image. This URL expires after a short time."
+        },
+        "prompt": {
+          "type": "string",
+          "description": "The effective prompt used for generation, which may differ from the submitted prompt if prompt_upsampling was enabled."
+        },
+        "seed": {
+          "type": "integer",
+          "description": "The random seed that was used for this generation. Useful for reproducing the same result.",
+          "minimum": 0
+        }
+      }
+    },
+    "KontextEditRequest": {
+      "type": "object",
+      "title": "KontextEditRequest",
+      "description": "Request body for FLUX.1 Kontext image editing. Extends the base generation request with an input image field.",
+      "required": ["prompt", "image"],
+      "properties": {
+        "prompt": {
+          "type": "string",
+          "description": "Text instruction describing the desired edit to apply to the input image.",
+          "maxLength": 10000
+        },
+        "image": {
+          "type": "string",
+          "description": "Base64-encoded input image to edit. Supported formats are JPEG and PNG.",
+          "contentEncoding": "base64",
+          "contentMediaType": "image/jpeg"
+        },
+        "steps": {
+          "type": "integer",
+          "description": "Diffusion inference steps.",
+          "minimum": 1,
+          "maximum": 50
+        },
+        "guidance": {
+          "type": "number",
+          "description": "Guidance scale.",
+          "minimum": 1.5,
+          "maximum": 10.0
+        },
+        "seed": {
+          "type": "integer",
+          "description": "Random seed.",
+          "minimum": 0
+        },
+        "safety_tolerance": {
+          "type": "integer",
+          "description": "Safety filter level (0-6).",
+          "minimum": 0,
+          "maximum": 6
+        },
+        "output_format": {
+          "type": "string",
+          "description": "Output format.",
+          "enum": ["jpeg", "png"]
+        }
+      }
+    }
+  }
+}

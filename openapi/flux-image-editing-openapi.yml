@@ -1,0 +1,316 @@
+openapi: 3.1.0
+info:
+  title: Flux Image Editing API
+  description: >-
+    REST API for editing and transforming existing images using Black Forest
+    Labs' FLUX.1 Kontext models. The Kontext models accept an input image and
+    a text prompt describing desired edits, returning a modified image. They
+    support context-aware in-painting, object replacement, style transfer,
+    background changes, and image-to-image transformations while preserving
+    important visual context. Authentication requires an API key in the X-Key
+    header. Requests are asynchronous and require polling for results.
+  version: 'v1'
+  contact:
+    name: Black Forest Labs Support
+    url: https://docs.bfl.ai/
+  termsOfService: https://bfl.ai/legal/flux-api-service-terms
+externalDocs:
+  description: Flux Kontext Image Editing Documentation
+  url: https://docs.bfl.ml/kontext/kontext_image_editing
+servers:
+  - url: https://api.bfl.ai/v1
+    description: Black Forest Labs Flux API
+tags:
+  - name: Editing
+    description: >-
+      Endpoints for submitting image editing requests using FLUX.1 Kontext
+      models. Accepts an input image and a text instruction to produce
+      a transformed output image.
+  - name: Results
+    description: >-
+      Endpoints for polling the status and retrieving completed image
+      editing results.
+security:
+  - apiKeyAuth: []
+paths:
+  /flux-kontext-pro:
+    post:
+      operationId: editImageKontextPro
+      summary: Edit image with FLUX.1 Kontext [pro]
+      description: >-
+        Submits an asynchronous image editing request using the FLUX.1
+        Kontext [pro] model. Accepts a base64-encoded input image and a
+        text prompt describing the desired edit. The model uses contextual
+        understanding to apply targeted edits while preserving the rest of
+        the image. Returns a task ID for polling. Use cases include object
+        replacement, background changes, style application, and detailed
+        touch-ups.
+      tags:
+        - Editing
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/KontextEditRequest'
+      responses:
+        '200':
+          description: Editing task accepted. Poll the returned ID for results.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskResponse'
+        '400':
+          description: Bad request. Invalid parameters or image data.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized. Missing or invalid API key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Validation error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationErrorResponse'
+  /flux-kontext-max:
+    post:
+      operationId: editImageKontextMax
+      summary: Edit image with FLUX.1 Kontext [max]
+      description: >-
+        Submits an asynchronous image editing request using the FLUX.1
+        Kontext [max] model, which offers maximum quality for image editing
+        with enhanced prompt following and detail preservation. Accepts a
+        base64-encoded input image and a text editing instruction. Returns
+        a task ID for polling the result.
+      tags:
+        - Editing
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/KontextEditRequest'
+      responses:
+        '200':
+          description: Editing task accepted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskResponse'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Validation error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationErrorResponse'
+  /get_result:
+    get:
+      operationId: getEditResult
+      summary: Poll for editing result
+      description: >-
+        Polls the status of an asynchronous image editing task. Returns the
+        current status (Pending, Processing, Ready, Error, or Content
+        Moderated). When status is Ready, the result object contains a
+        pre-signed sample URL to download the edited image.
+      tags:
+        - Results
+      parameters:
+        - $ref: '#/components/parameters/taskIdParam'
+      responses:
+        '200':
+          description: Task status and result (if ready).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResultResponse'
+        '401':
+          description: Unauthorized.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Task not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-Key
+      description: >-
+        API key from the Black Forest Labs developer portal. Pass in the
+        X-Key header for all authenticated requests.
+  parameters:
+    taskIdParam:
+      name: id
+      in: query
+      required: true
+      description: The task ID returned by an editing request.
+      schema:
+        type: string
+        format: uuid
+  schemas:
+    KontextEditRequest:
+      type: object
+      description: >-
+        Request body for FLUX.1 Kontext image editing. Requires both an
+        input image (base64-encoded) and a text prompt describing the desired
+        edit to apply.
+      required:
+        - prompt
+        - image
+      properties:
+        prompt:
+          type: string
+          description: >-
+            Text instruction describing the desired edit. For best results,
+            be specific about what to change and what to preserve (e.g.,
+            "Change the car color to red, keep the background and surroundings
+            unchanged").
+          maxLength: 10000
+        image:
+          type: string
+          description: >-
+            The input image to edit, encoded as a base64 string. Supported
+            formats are JPEG and PNG. The image should be provided without
+            a data URI prefix.
+          contentEncoding: base64
+          contentMediaType: image/jpeg
+        steps:
+          type: integer
+          description: Number of diffusion inference steps.
+          minimum: 1
+          maximum: 50
+          default: 28
+        guidance:
+          type: number
+          description: Guidance scale controlling prompt adherence strength.
+          minimum: 1.5
+          maximum: 10.0
+          default: 3.5
+        seed:
+          type: integer
+          description: Random seed for reproducible results.
+          minimum: 0
+        safety_tolerance:
+          type: integer
+          description: Content safety filter tolerance from 0 (strictest) to 6 (least strict).
+          minimum: 0
+          maximum: 6
+          default: 2
+        output_format:
+          type: string
+          description: Output image format for the edited result.
+          enum:
+            - jpeg
+            - png
+          default: jpeg
+        prompt_upsampling:
+          type: boolean
+          description: >-
+            If true, automatically enhances the editing prompt using an LLM
+            before processing for improved edit quality.
+          default: false
+    TaskResponse:
+      type: object
+      description: >-
+        Response returned when an image editing task is accepted. Contains
+        the task ID for polling.
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the editing task.
+        polling_url:
+          type: string
+          format: uri
+          description: Convenience URL for polling the task status.
+    ResultResponse:
+      type: object
+      description: >-
+        Response from the result polling endpoint. When status is Ready,
+        the result contains a URL to download the edited image.
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: The task ID.
+        status:
+          type: string
+          description: Current status of the editing task.
+          enum:
+            - Pending
+            - Processing
+            - Ready
+            - Error
+            - Content Moderated
+            - Request Moderated
+        result:
+          type: object
+          description: Result data, present only when status is Ready.
+          properties:
+            sample:
+              type: string
+              format: uri
+              description: Pre-signed URL to download the edited image.
+            prompt:
+              type: string
+              description: The prompt used for the edit.
+            seed:
+              type: integer
+              description: The seed used for generation.
+    ErrorResponse:
+      type: object
+      description: Error response.
+      properties:
+        detail:
+          type: string
+          description: Human-readable error message.
+        status_code:
+          type: integer
+          description: HTTP status code.
+    ValidationErrorResponse:
+      type: object
+      description: Validation error response when the request body fails validation.
+      properties:
+        detail:
+          type: array
+          description: List of validation errors.
+          items:
+            type: object
+            properties:
+              loc:
+                type: array
+                description: Location of the error in the request.
+                items:
+                  oneOf:
+                    - type: string
+                    - type: integer
+              msg:
+                type: string
+                description: Error message.
+              type:
+                type: string
+                description: Error type.
