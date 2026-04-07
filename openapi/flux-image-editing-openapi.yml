@@ -124,7 +124,7 @@ paths:
   /get_result:
     get:
       operationId: getEditResult
-      summary: Poll for editing result
+      summary: Flux Poll for editing result
       description: >-
         Polls the status of an asynchronous image editing task. Returns the
         current status (Pending, Processing, Ready, Error, or Content
