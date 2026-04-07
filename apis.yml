@@ -1,8 +1,6 @@
 aid: flux
 name: Flux
-description: An open-source text-to-image AI model developed by Black Forest Labs
-  that generates high-quality images from text prompts with improved prompt following
-  and visual quality.
+description: An open-source text-to-image AI model developed by Black Forest Labs that generates high-quality images from text prompts with improved prompt following and visual quality.
 type: Index
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 url: >-
@@ -14,8 +12,8 @@ tags:
   - AI
   - Image Generation
   - Machine Learning
-  - Text To Image
   - Open Source
+  - Text to Image
 apis:
   - aid: flux:flux-image-generation-api
     name: Flux Image Generation API
@@ -27,10 +25,10 @@ apis:
     humanURL: https://docs.bfl.ai/
     baseURL: https://api.bfl.ai/v1
     tags:
-      - Image Generation
-      - Text To Image
       - AI
+      - Image Generation
       - Machine Learning
+      - Text to Image
     properties:
       - type: Documentation
         url: https://docs.bfl.ai/
@@ -52,9 +50,9 @@ apis:
     humanURL: https://docs.bfl.ml/kontext/kontext_image_editing
     baseURL: https://api.bfl.ai/v1
     tags:
-      - Image Editing
-      - Image To Image
       - AI
+      - Image Editing
+      - Image to Image
       - Kontext
     properties:
       - type: Documentation
