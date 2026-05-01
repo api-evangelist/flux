@@ -16,7 +16,7 @@ An open-source text-to-image AI model developed by Black Forest Labs that genera
 ## Timestamps
 
 - **Created:** 2025-01-01 
-- **Modified:** 2026-03-18 
+- **Modified:** 2026-04-28 
 
 ## APIs
 
