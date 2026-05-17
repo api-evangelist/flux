@@ -32,7 +32,7 @@ apis:
     properties:
       - type: Documentation
         url: https://docs.bfl.ai/
-      - type: Getting Started
+      - type: GettingStarted
         url: https://docs.bfl.ml/quick_start/generating_images
       - type: Authentication
         url: https://docs.bfl.ai/
@@ -60,7 +60,7 @@ apis:
       - type: OpenAPI
         url: openapi/flux-image-editing-openapi.yml
 common:
-  - type: JSON-LD
+  - type: JSONLD
     url: json-ld/flux-context.jsonld
   - type: JSONSchema
     url: json-schema/flux-generation-request-schema.json
@@ -68,21 +68,21 @@ common:
     url: https://bfl.ai/
   - type: Documentation
     url: https://docs.bfl.ai/
-  - type: Getting Started
+  - type: GettingStarted
     url: https://docs.bfl.ml/quick_start/generating_images
-  - type: GitHub Organization
+  - type: GitHubOrganization
     url: https://github.com/black-forest-labs
   - type: GitHubRepository
     url: https://github.com/black-forest-labs/flux
   - type: Blog
     url: https://bfl.ai/blog
-  - type: Change Log
+  - type: ChangeLog
     url: https://docs.bfl.ai/release-notes
-  - type: Terms of Service
+  - type: TermsOfService
     url: https://bfl.ai/legal/flux-api-service-terms
-  - type: Privacy Policy
+  - type: PrivacyPolicy
     url: https://bfl.ai/legal/privacy-policy
-  - type: Sign Up
+  - type: SignUp
     url: https://auth.bfl.ai/register
 maintainers:
   - FN: Kin Lane
