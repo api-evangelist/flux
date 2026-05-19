@@ -6,7 +6,7 @@ image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 url: >-
   https://raw.githubusercontent.com/api-evangelist/flux/refs/heads/main/apis.yml
 created: '2025-01-01'
-modified: '2026-04-28'
+modified: '2026-05-19'
 specificationVersion: '0.19'
 tags:
   - AI
@@ -84,6 +84,9 @@ common:
     url: https://bfl.ai/legal/privacy-policy
   - type: SignUp
     url: https://auth.bfl.ai/register
+  - name: MCP Server
+    url: https://github.com/black-forest-labs/flux-mcp
+    type: MCPServer
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
