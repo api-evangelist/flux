@@ -1,0 +1,72 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Flux Image Generation API — Results
+  description: 'Flux Image Generation API — Results. 1 operations. Lead operation: Flux Poll for generation result. Self-contained
+    Naftiko capability covering one Flux business surface.'
+  tags:
+  - Flux
+  - Results
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    FLUX_API_KEY: FLUX_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: image-generation-results
+    baseUri: https://api.bfl.ai/v1
+    description: Flux Image Generation API — Results business capability. Self-contained, no shared references.
+    resources:
+    - name: get_result
+      path: /get_result
+      operations:
+      - name: getresult
+        method: GET
+        description: Flux Poll for generation result
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apikey
+      key: X-Key
+      value: '{{env.FLUX_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: image-generation-results-rest
+    port: 8080
+    description: REST adapter for Flux Image Generation API — Results. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/get-result
+      name: get-result
+      description: REST surface for get_result.
+      operations:
+      - method: GET
+        name: getresult
+        description: Flux Poll for generation result
+        call: image-generation-results.getresult
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: image-generation-results-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Flux Image Generation API — Results. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: flux-poll-generation-result
+      description: Flux Poll for generation result
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: image-generation-results.getresult
+      outputParameters:
+      - type: object
+        mapping: $.
