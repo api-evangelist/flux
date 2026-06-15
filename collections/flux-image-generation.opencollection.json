@@ -1,0 +1,128 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Flux Image Generation API",
+    "version": "v1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Key",
+      "value": "{{X-Key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Generation",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Generate image with FLUX 1.1 [pro]",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.bfl.ai/v1/flux-pro-1.1",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submits an asynchronous image generation request using the FLUX 1.1 [pro] model, which offers improved prompt adherence and image quality over FLUX.1 [pro]. Returns a task ID and polling URL. The caller must poll GET /v1/get_result?id={id} until the status is Ready, then download the image from the returned sample URL."
+        },
+        {
+          "info": {
+            "name": "Generate image with FLUX.1 [pro]",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.bfl.ai/v1/flux-pro",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submits an asynchronous image generation request using the original FLUX.1 [pro] model. Returns a task ID for polling. The pro model delivers high-quality images with strong prompt following and supports a full range of aspect ratios via width and height parameters."
+        },
+        {
+          "info": {
+            "name": "Generate image with FLUX.1 [dev]",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.bfl.ai/v1/flux-dev",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submits an asynchronous image generation request using the FLUX.1 [dev] model. The dev model is a distilled version of FLUX.1 [pro] intended for non-commercial use, offering a balance of quality and speed. Requires accepting the FLUX.1 [dev] non-commercial license."
+        },
+        {
+          "info": {
+            "name": "Generate image with FLUX.1 [schnell]",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.bfl.ai/v1/flux-schnell",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submits an asynchronous image generation request using the FLUX.1 [schnell] model. Schnell is the fastest FLUX variant, optimized for local development and personal use. It typically requires only 1-4 inference steps and returns results faster than other variants."
+        },
+        {
+          "info": {
+            "name": "Generate image with FLUX 1.1 [pro] Ultra",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.bfl.ai/v1/flux-pro-1.1-ultra",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submits an image generation request using the FLUX 1.1 [pro] Ultra model, which supports higher resolution outputs up to 4 megapixels and includes an optional raw mode for more photorealistic results. Returns a task ID for polling."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Results",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Flux Poll for generation result",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bfl.ai/v1/get_result",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "query",
+                "description": "The task ID returned by a generation request."
+              }
+            ]
+          },
+          "docs": "Polls the status of an asynchronous image generation task by ID. Returns the current status (Pending, Processing, Ready, Error, or Content Moderated). When status is Ready, the response includes a sample field containing a pre-signed URL to download the generated image. The URL expires after a short time, so the image should be downloaded promptly."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

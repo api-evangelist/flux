@@ -1,0 +1,83 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Flux Image Editing API",
+    "version": "v1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Key",
+      "value": "{{X-Key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Editing",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Edit image with FLUX.1 Kontext [pro]",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.bfl.ai/v1/flux-kontext-pro",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submits an asynchronous image editing request using the FLUX.1 Kontext [pro] model. Accepts a base64-encoded input image and a text prompt describing the desired edit. The model uses contextual understanding to apply targeted edits while preserving the rest of the image. Returns a task ID for polling. Use cases include object replacement, background changes, style application, and detailed touch-ups."
+        },
+        {
+          "info": {
+            "name": "Edit image with FLUX.1 Kontext [max]",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.bfl.ai/v1/flux-kontext-max",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submits an asynchronous image editing request using the FLUX.1 Kontext [max] model, which offers maximum quality for image editing with enhanced prompt following and detail preservation. Accepts a base64-encoded input image and a text editing instruction. Returns a task ID for polling the result."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Results",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Flux Poll for editing result",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bfl.ai/v1/get_result",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "query",
+                "description": "The task ID returned by an editing request."
+              }
+            ]
+          },
+          "docs": "Polls the status of an asynchronous image editing task. Returns the current status (Pending, Processing, Ready, Error, or Content Moderated). When status is Ready, the result object contains a pre-signed sample URL to download the edited image."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

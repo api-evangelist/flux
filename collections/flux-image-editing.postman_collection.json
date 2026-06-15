@@ -1,0 +1,750 @@
+{
+  "item": [
+    {
+      "id": "252e5bcd-9342-4881-8755-d7dd77e4d177",
+      "name": "Editing",
+      "description": {
+        "content": "Endpoints for submitting image editing requests using FLUX.1 Kontext models. Accepts an input image and a text instruction to produce a transformed output image.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "1c7fabb2-d9ed-4511-a91f-35bb09c92bdf",
+          "name": "Edit image with FLUX.1 Kontext [pro]",
+          "request": {
+            "name": "Edit image with FLUX.1 Kontext [pro]",
+            "description": {
+              "content": "Submits an asynchronous image editing request using the FLUX.1 Kontext [pro] model. Accepts a base64-encoded input image and a text prompt describing the desired edit. The model uses contextual understanding to apply targeted edits while preserving the rest of the image. Returns a task ID for polling. Use cases include object replacement, background changes, style application, and detailed touch-ups.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "flux-kontext-pro"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"prompt\": \"<string>\",\n  \"image\": \"<string>\",\n  \"steps\": 28,\n  \"guidance\": 3.5,\n  \"seed\": \"<integer>\",\n  \"safety_tolerance\": 2,\n  \"output_format\": \"jpeg\",\n  \"prompt_upsampling\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "5a2966ce-f721-495f-b5d2-44e93a4d5140",
+              "name": "Editing task accepted. Poll the returned ID for results.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "flux-kontext-pro"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"prompt\": \"<string>\",\n  \"image\": \"<string>\",\n  \"steps\": 28,\n  \"guidance\": 3.5,\n  \"seed\": \"<integer>\",\n  \"safety_tolerance\": 2,\n  \"output_format\": \"jpeg\",\n  \"prompt_upsampling\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"128eddbf-6956-d146-47ed-3a15c6d6c9c0\",\n  \"polling_url\": \"http://pkxZwOWbjVllPjbzbuRcNINfiVXfqL.unkxwvvHTLZtbVY8uy4yZbcQruU6kXYeKfYpuHCgIalW2y5TrTLP4\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "35e7a3c0-7915-4720-85cf-9b063a8e46ab",
+              "name": "Bad request. Invalid parameters or image data.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "flux-kontext-pro"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"prompt\": \"<string>\",\n  \"image\": \"<string>\",\n  \"steps\": 28,\n  \"guidance\": 3.5,\n  \"seed\": \"<integer>\",\n  \"safety_tolerance\": 2,\n  \"output_format\": \"jpeg\",\n  \"prompt_upsampling\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": \"string\",\n  \"status_code\": 2477\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "415d04d5-0605-44f9-8b09-c84238550654",
+              "name": "Unauthorized. Missing or invalid API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "flux-kontext-pro"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"prompt\": \"<string>\",\n  \"image\": \"<string>\",\n  \"steps\": 28,\n  \"guidance\": 3.5,\n  \"seed\": \"<integer>\",\n  \"safety_tolerance\": 2,\n  \"output_format\": \"jpeg\",\n  \"prompt_upsampling\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": \"string\",\n  \"status_code\": 2477\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "98303bfa-d6c8-4330-9584-6ea8d040c0e4",
+              "name": "Validation error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "flux-kontext-pro"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"prompt\": \"<string>\",\n  \"image\": \"<string>\",\n  \"steps\": 28,\n  \"guidance\": 3.5,\n  \"seed\": \"<integer>\",\n  \"safety_tolerance\": 2,\n  \"output_format\": \"jpeg\",\n  \"prompt_upsampling\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ea4e9097-9180-4df1-9338-968eb2762e64",
+          "name": "Edit image with FLUX.1 Kontext [max]",
+          "request": {
+            "name": "Edit image with FLUX.1 Kontext [max]",
+            "description": {
+              "content": "Submits an asynchronous image editing request using the FLUX.1 Kontext [max] model, which offers maximum quality for image editing with enhanced prompt following and detail preservation. Accepts a base64-encoded input image and a text editing instruction. Returns a task ID for polling the result.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "flux-kontext-max"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"prompt\": \"<string>\",\n  \"image\": \"<string>\",\n  \"steps\": 28,\n  \"guidance\": 3.5,\n  \"seed\": \"<integer>\",\n  \"safety_tolerance\": 2,\n  \"output_format\": \"jpeg\",\n  \"prompt_upsampling\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "eff43153-d69b-492e-aa67-6ac0a2d8f435",
+              "name": "Editing task accepted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "flux-kontext-max"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"prompt\": \"<string>\",\n  \"image\": \"<string>\",\n  \"steps\": 28,\n  \"guidance\": 3.5,\n  \"seed\": \"<integer>\",\n  \"safety_tolerance\": 2,\n  \"output_format\": \"jpeg\",\n  \"prompt_upsampling\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"128eddbf-6956-d146-47ed-3a15c6d6c9c0\",\n  \"polling_url\": \"http://pkxZwOWbjVllPjbzbuRcNINfiVXfqL.unkxwvvHTLZtbVY8uy4yZbcQruU6kXYeKfYpuHCgIalW2y5TrTLP4\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ba3951a3-7e06-41c6-ae4c-c2059d44b1e5",
+              "name": "Bad request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "flux-kontext-max"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"prompt\": \"<string>\",\n  \"image\": \"<string>\",\n  \"steps\": 28,\n  \"guidance\": 3.5,\n  \"seed\": \"<integer>\",\n  \"safety_tolerance\": 2,\n  \"output_format\": \"jpeg\",\n  \"prompt_upsampling\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": \"string\",\n  \"status_code\": 2477\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c06afa47-e917-4adb-ad94-00bc269b18af",
+              "name": "Unauthorized.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "flux-kontext-max"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"prompt\": \"<string>\",\n  \"image\": \"<string>\",\n  \"steps\": 28,\n  \"guidance\": 3.5,\n  \"seed\": \"<integer>\",\n  \"safety_tolerance\": 2,\n  \"output_format\": \"jpeg\",\n  \"prompt_upsampling\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": \"string\",\n  \"status_code\": 2477\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "cb960b2c-a6ae-4e4b-985e-702554034f62",
+              "name": "Validation error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "flux-kontext-max"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"prompt\": \"<string>\",\n  \"image\": \"<string>\",\n  \"steps\": 28,\n  \"guidance\": 3.5,\n  \"seed\": \"<integer>\",\n  \"safety_tolerance\": 2,\n  \"output_format\": \"jpeg\",\n  \"prompt_upsampling\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "7cffc945-9940-4fcf-abbd-9a18589cc159",
+      "name": "Results",
+      "description": {
+        "content": "Endpoints for polling the status and retrieving completed image editing results.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "90357d69-b1d5-45b1-a804-df5d1f0038b8",
+          "name": "Flux Poll for editing result",
+          "request": {
+            "name": "Flux Poll for editing result",
+            "description": {
+              "content": "Polls the status of an asynchronous image editing task. Returns the current status (Pending, Processing, Ready, Error, or Content Moderated). When status is Ready, the result object contains a pre-signed sample URL to download the edited image.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "get_result"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "id",
+                  "value": "<uuid>",
+                  "description": "(Required) The task ID returned by an editing request."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f022034d-85e4-4e0a-beea-45e6769bc282",
+              "name": "Task status and result (if ready).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "get_result"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "id",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"f56e0fe0-be05-05c8-791c-b76d0c4d24b1\",\n  \"status\": \"Request Moderated\",\n  \"result\": {\n    \"sample\": \"http://VQZkBEktFJlqFkKt.pldiMzkCgWZmfqoM5njz-cB0tn5qS\",\n    \"prompt\": \"string\",\n    \"seed\": 6668\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b258f615-7cfe-499f-b09e-ddcc7f6b3839",
+              "name": "Unauthorized.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "get_result"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "id",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": \"string\",\n  \"status_code\": 2477\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f942730a-222f-49f5-99be-6fab7f4de2e1",
+              "name": "Task not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "get_result"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "id",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": \"string\",\n  \"status_code\": 2477\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.bfl.ai/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-Key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "c6e83f37-12bc-4339-96b7-17e4498021c9",
+    "name": "Flux Image Editing API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "REST API for editing and transforming existing images using Black Forest Labs' FLUX.1 Kontext models. The Kontext models accept an input image and a text prompt describing desired edits, returning a modified image. They support context-aware in-painting, object replacement, style transfer, background changes, and image-to-image transformations while preserving important visual context. Authentication requires an API key in the X-Key header. Requests are asynchronous and require polling for results.\n\nContact Support:\n Name: Black Forest Labs Support",
+      "type": "text/plain"
+    }
+  }
+}
