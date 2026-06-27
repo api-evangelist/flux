@@ -81,7 +81,7 @@ common:
     url: https://bfl.ai/legal/flux-api-service-terms
   - type: PrivacyPolicy
     url: https://bfl.ai/legal/privacy-policy
-  - type: SignUp
+  - type: Signup
     url: https://auth.bfl.ai/register
   - name: MCP Server
     url: https://github.com/black-forest-labs/flux-mcp

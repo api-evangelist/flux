@@ -3,19 +3,12 @@
   "feeds": [
     {
       "source": "https://bfl.ai/blog",
-      "feed_url": "https://bfl.ai/blog",
-      "title": "",
+      "feed_url": "",
       "saved": 0,
-      "method": "none"
-    },
-    {
-      "source": "https://github.com/black-forest-labs/flux",
-      "feed_url": "https://github.com/black-forest-labs/flux",
-      "title": "",
-      "saved": 0,
-      "method": "none"
+      "method": "agent-scrape"
     }
   ],
-  "post_count": 1,
-  "fetched": "2026-06-14T20:42:17Z"
+  "fetched": "2026-06-27T12:42:58Z",
+  "post_count": 3,
+  "agent_pulled": "2026-06-27"
 }
