@@ -59,6 +59,10 @@ apis:
       - type: OpenAPI
         url: openapi/flux-image-editing-openapi.yml
 common:
+  - type: DomainSecurity
+    url: security/flux-domain-security.yml
+  - type: Authentication
+    url: authentication/flux-authentication.yml
   - type: JSONLD
     url: json-ld/flux-context.jsonld
   - type: JSONSchema

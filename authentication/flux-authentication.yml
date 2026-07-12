@@ -1,0 +1,18 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/flux-image-editing-openapi.yml, openapi/flux-image-generation-openapi.yml
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - header
+schemes:
+- name: apiKeyAuth
+  type: apiKey
+  in: header
+  parameter: X-Key
+  description: API key from the Black Forest Labs developer portal. Pass in the X-Key header
+    for all authenticated requests.
+  sources:
+  - openapi/flux-image-editing-openapi.yml
+  - openapi/flux-image-generation-openapi.yml
