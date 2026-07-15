@@ -59,6 +59,8 @@ apis:
       - type: OpenAPI
         url: openapi/flux-image-editing-openapi.yml
 common:
+  - type: AgenticAccess
+    url: agentic-access/flux-agentic-access.yml
   - type: DomainSecurity
     url: security/flux-domain-security.yml
   - type: Authentication
