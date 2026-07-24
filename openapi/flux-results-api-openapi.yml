@@ -1,0 +1,108 @@
+openapi: 3.1.0
+info:
+  title: Flux Image Editing Results API
+  description: REST API for editing and transforming existing images using Black Forest Labs' FLUX.1 Kontext models. The Kontext models accept an input image and a text prompt describing desired edits, returning a modified image. They support context-aware in-painting, object replacement, style transfer, background changes, and image-to-image transformations while preserving important visual context. Authentication requires an API key in the X-Key header. Requests are asynchronous and require polling for results.
+  version: v1
+  contact:
+    name: Black Forest Labs Support
+    url: https://docs.bfl.ai/
+  termsOfService: https://bfl.ai/legal/flux-api-service-terms
+servers:
+- url: https://api.bfl.ai/v1
+  description: Black Forest Labs Flux API
+security:
+- apiKeyAuth: []
+tags:
+- name: Results
+  description: Endpoints for polling the status and retrieving completed image editing results.
+paths:
+  /get_result:
+    get:
+      operationId: getEditResult
+      summary: Flux Poll for editing result
+      description: Polls the status of an asynchronous image editing task. Returns the current status (Pending, Processing, Ready, Error, or Content Moderated). When status is Ready, the result object contains a pre-signed sample URL to download the edited image.
+      tags:
+      - Results
+      parameters:
+      - $ref: '#/components/parameters/taskIdParam'
+      responses:
+        '200':
+          description: Task status and result (if ready).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResultResponse'
+        '401':
+          description: Unauthorized.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Task not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    ErrorResponse:
+      type: object
+      description: Error response.
+      properties:
+        detail:
+          type: string
+          description: Human-readable error message.
+        status_code:
+          type: integer
+          description: HTTP status code.
+    ResultResponse:
+      type: object
+      description: Response from the result polling endpoint. When status is Ready, the result contains a URL to download the edited image.
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: The task ID.
+        status:
+          type: string
+          description: Current status of the editing task.
+          enum:
+          - Pending
+          - Processing
+          - Ready
+          - Error
+          - Content Moderated
+          - Request Moderated
+        result:
+          type: object
+          description: Result data, present only when status is Ready.
+          properties:
+            sample:
+              type: string
+              format: uri
+              description: Pre-signed URL to download the edited image.
+            prompt:
+              type: string
+              description: The prompt used for the edit.
+            seed:
+              type: integer
+              description: The seed used for generation.
+  parameters:
+    taskIdParam:
+      name: id
+      in: query
+      required: true
+      description: The task ID returned by an editing request.
+      schema:
+        type: string
+        format: uuid
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-Key
+      description: API key from the Black Forest Labs developer portal. Pass in the X-Key header for all authenticated requests.
+externalDocs:
+  description: Flux Kontext Image Editing Documentation
+  url: https://docs.bfl.ml/kontext/kontext_image_editing

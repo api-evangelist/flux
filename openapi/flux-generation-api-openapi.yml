@@ -1,0 +1,459 @@
+openapi: 3.1.0
+info:
+  title: Flux Image Editing Generation API
+  description: REST API for editing and transforming existing images using Black Forest Labs' FLUX.1 Kontext models. The Kontext models accept an input image and a text prompt describing desired edits, returning a modified image. They support context-aware in-painting, object replacement, style transfer, background changes, and image-to-image transformations while preserving important visual context. Authentication requires an API key in the X-Key header. Requests are asynchronous and require polling for results.
+  version: v1
+  contact:
+    name: Black Forest Labs Support
+    url: https://docs.bfl.ai/
+  termsOfService: https://bfl.ai/legal/flux-api-service-terms
+servers:
+- url: https://api.bfl.ai/v1
+  description: Black Forest Labs Flux API
+security:
+- apiKeyAuth: []
+tags:
+- name: Generation
+  description: Endpoints for submitting image generation requests using FLUX models. Each endpoint targets a specific model variant and returns a task ID for polling.
+paths:
+  /flux-pro-1.1:
+    post:
+      operationId: generateFluxPro11
+      summary: Generate image with FLUX 1.1 [pro]
+      description: Submits an asynchronous image generation request using the FLUX 1.1 [pro] model, which offers improved prompt adherence and image quality over FLUX.1 [pro]. Returns a task ID and polling URL. The caller must poll GET /v1/get_result?id={id} until the status is Ready, then download the image from the returned sample URL.
+      tags:
+      - Generation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FluxProGenerationRequest'
+      responses:
+        '200':
+          description: Generation task accepted. Poll the returned ID for results.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskResponse'
+        '400':
+          description: Bad request. Invalid parameters.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized. Missing or invalid API key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Validation error. Request body failed schema validation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationErrorResponse'
+  /flux-pro:
+    post:
+      operationId: generateFluxPro
+      summary: Generate image with FLUX.1 [pro]
+      description: Submits an asynchronous image generation request using the original FLUX.1 [pro] model. Returns a task ID for polling. The pro model delivers high-quality images with strong prompt following and supports a full range of aspect ratios via width and height parameters.
+      tags:
+      - Generation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FluxProGenerationRequest'
+      responses:
+        '200':
+          description: Generation task accepted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskResponse'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Validation error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationErrorResponse'
+  /flux-dev:
+    post:
+      operationId: generateFluxDev
+      summary: Generate image with FLUX.1 [dev]
+      description: Submits an asynchronous image generation request using the FLUX.1 [dev] model. The dev model is a distilled version of FLUX.1 [pro] intended for non-commercial use, offering a balance of quality and speed. Requires accepting the FLUX.1 [dev] non-commercial license.
+      tags:
+      - Generation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FluxDevGenerationRequest'
+      responses:
+        '200':
+          description: Generation task accepted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskResponse'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Validation error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationErrorResponse'
+  /flux-schnell:
+    post:
+      operationId: generateFluxSchnell
+      summary: Generate image with FLUX.1 [schnell]
+      description: Submits an asynchronous image generation request using the FLUX.1 [schnell] model. Schnell is the fastest FLUX variant, optimized for local development and personal use. It typically requires only 1-4 inference steps and returns results faster than other variants.
+      tags:
+      - Generation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FluxSchnellGenerationRequest'
+      responses:
+        '200':
+          description: Generation task accepted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskResponse'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Validation error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationErrorResponse'
+  /flux-pro-1.1-ultra:
+    post:
+      operationId: generateFluxPro11Ultra
+      summary: Generate image with FLUX 1.1 [pro] Ultra
+      description: Submits an image generation request using the FLUX 1.1 [pro] Ultra model, which supports higher resolution outputs up to 4 megapixels and includes an optional raw mode for more photorealistic results. Returns a task ID for polling.
+      tags:
+      - Generation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FluxUltraGenerationRequest'
+      responses:
+        '200':
+          description: Generation task accepted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskResponse'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Validation error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationErrorResponse'
+components:
+  schemas:
+    TaskResponse:
+      type: object
+      description: Response returned when an image generation task is accepted. Contains the task ID and a polling URL for checking status.
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the generation task. Use this ID to poll GET /v1/get_result for the result.
+        polling_url:
+          type: string
+          format: uri
+          description: Convenience URL for polling the result. Equivalent to GET /v1/get_result?id={id}.
+    ErrorResponse:
+      type: object
+      description: Error response returned when a request fails.
+      properties:
+        detail:
+          type: string
+          description: Human-readable error message describing the failure.
+        status_code:
+          type: integer
+          description: HTTP status code.
+    FluxProGenerationRequest:
+      type: object
+      description: Request body for FLUX.1 [pro] and FLUX 1.1 [pro] image generation. Specifies the prompt, image dimensions, output format, and model quality parameters.
+      required:
+      - prompt
+      properties:
+        prompt:
+          type: string
+          description: Text description of the image to generate. Detailed, descriptive prompts generally yield better results.
+          maxLength: 10000
+        width:
+          type: integer
+          description: Width of the generated image in pixels. Must be a multiple of 32. Defaults to 1024.
+          minimum: 256
+          maximum: 1440
+          default: 1024
+        height:
+          type: integer
+          description: Height of the generated image in pixels. Must be a multiple of 32. Defaults to 768.
+          minimum: 256
+          maximum: 1440
+          default: 768
+        steps:
+          type: integer
+          description: Number of diffusion steps. Higher values produce better quality but take longer. Defaults vary by model.
+          minimum: 1
+          maximum: 50
+        guidance:
+          type: number
+          description: Classifier-free guidance scale. Higher values follow the prompt more closely but may reduce image naturalness.
+          minimum: 1.5
+          maximum: 5.0
+          default: 3.5
+        seed:
+          type: integer
+          description: Random seed for reproducible generation. If omitted, a random seed is used.
+          minimum: 0
+        safety_tolerance:
+          type: integer
+          description: Content safety filter tolerance level from 0 (most strict) to 6 (least strict). Default is 2.
+          minimum: 0
+          maximum: 6
+          default: 2
+        output_format:
+          type: string
+          description: Output image format.
+          enum:
+          - jpeg
+          - png
+          default: jpeg
+        prompt_upsampling:
+          type: boolean
+          description: If true, automatically enhances the prompt before generation using an LLM to improve image quality and prompt adherence.
+          default: false
+    FluxUltraGenerationRequest:
+      type: object
+      description: Request body for FLUX 1.1 [pro] Ultra image generation. Supports higher resolution outputs and an optional raw mode for photorealistic results without additional artistic processing.
+      required:
+      - prompt
+      properties:
+        prompt:
+          type: string
+          description: Text description of the image to generate.
+          maxLength: 10000
+        aspect_ratio:
+          type: string
+          description: Aspect ratio of the generated image. Ultra uses aspect ratios instead of explicit width/height.
+          enum:
+          - '21:9'
+          - '16:9'
+          - '4:3'
+          - '3:2'
+          - '1:1'
+          - '2:3'
+          - '3:4'
+          - '9:16'
+          - '9:21'
+          default: '16:9'
+        seed:
+          type: integer
+          description: Random seed for reproducibility.
+          minimum: 0
+        safety_tolerance:
+          type: integer
+          description: Safety filter tolerance (0-6).
+          minimum: 0
+          maximum: 6
+          default: 2
+        output_format:
+          type: string
+          description: Output image format.
+          enum:
+          - jpeg
+          - png
+          default: jpeg
+        raw:
+          type: boolean
+          description: If true, generates more natural, less processed images with a more photorealistic aesthetic.
+          default: false
+    ValidationErrorResponse:
+      type: object
+      description: Validation error response returned when the request body fails schema validation.
+      properties:
+        detail:
+          type: array
+          description: Array of validation error details.
+          items:
+            type: object
+            properties:
+              loc:
+                type: array
+                description: Location of the validation error in the request.
+                items:
+                  oneOf:
+                  - type: string
+                  - type: integer
+              msg:
+                type: string
+                description: Validation error message.
+              type:
+                type: string
+                description: Error type identifier.
+    FluxSchnellGenerationRequest:
+      type: object
+      description: Request body for FLUX.1 [schnell] image generation. Schnell is optimized for speed with fewer inference steps required.
+      required:
+      - prompt
+      properties:
+        prompt:
+          type: string
+          description: Text description of the image to generate.
+          maxLength: 10000
+        width:
+          type: integer
+          description: Width of the generated image in pixels.
+          minimum: 256
+          maximum: 1440
+          default: 1024
+        height:
+          type: integer
+          description: Height of the generated image in pixels.
+          minimum: 256
+          maximum: 1440
+          default: 768
+        steps:
+          type: integer
+          description: Number of inference steps. Schnell typically uses 1-4 steps.
+          minimum: 1
+          maximum: 12
+          default: 4
+        seed:
+          type: integer
+          description: Random seed for reproducibility.
+          minimum: 0
+        safety_tolerance:
+          type: integer
+          description: Safety filter tolerance (0-6).
+          minimum: 0
+          maximum: 6
+          default: 2
+        output_format:
+          type: string
+          description: Output image format.
+          enum:
+          - jpeg
+          - png
+          default: jpeg
+    FluxDevGenerationRequest:
+      type: object
+      description: Request body for FLUX.1 [dev] image generation. Similar to the pro request but with parameters tuned for the distilled dev model.
+      required:
+      - prompt
+      properties:
+        prompt:
+          type: string
+          description: Text description of the image to generate.
+          maxLength: 10000
+        width:
+          type: integer
+          description: Width of the generated image in pixels.
+          minimum: 256
+          maximum: 1440
+          default: 1024
+        height:
+          type: integer
+          description: Height of the generated image in pixels.
+          minimum: 256
+          maximum: 1440
+          default: 768
+        steps:
+          type: integer
+          description: Number of diffusion inference steps.
+          minimum: 1
+          maximum: 50
+          default: 28
+        guidance:
+          type: number
+          description: Guidance scale for prompt adherence.
+          minimum: 1.5
+          maximum: 5.0
+          default: 3.5
+        seed:
+          type: integer
+          description: Random seed for reproducibility.
+          minimum: 0
+        safety_tolerance:
+          type: integer
+          description: Safety filter tolerance (0-6).
+          minimum: 0
+          maximum: 6
+          default: 2
+        output_format:
+          type: string
+          description: Output image format.
+          enum:
+          - jpeg
+          - png
+          default: jpeg
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-Key
+      description: API key from the Black Forest Labs developer portal. Pass in the X-Key header for all authenticated requests.
+externalDocs:
+  description: Flux Kontext Image Editing Documentation
+  url: https://docs.bfl.ml/kontext/kontext_image_editing
