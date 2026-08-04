@@ -1,0 +1,234 @@
+{
+  "info": {
+    "_postman_id": "9ed77982-dcdc-43c4-ab1e-b9587c27823b",
+    "name": "Flux Image Editing Results API",
+    "description": "REST API for editing and transforming existing images using Black Forest Labs' FLUX.1 Kontext models. The Kontext models accept an input image and a text prompt describing desired edits, returning a modified image. They support context-aware in-painting, object replacement, style transfer, background changes, and image-to-image transformations while preserving important visual context. Authentication requires an API key in the X-Key header. Requests are asynchronous and require polling for results.\n\nContact Support:\n Name: Black Forest Labs Support",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T01:40:55.000Z",
+    "updatedAt": "2026-07-28T01:40:55.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-9ed77982-dcdc-43c4-ab1e-b9587c27823b"
+  },
+  "item": [
+    {
+      "name": "get_result",
+      "item": [
+        {
+          "name": "Flux Poll for editing result",
+          "id": "5fc74214-b17f-481a-ae52-7a8e3ce7d0d9",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/get_result?id=<uuid>",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "get_result"
+              ],
+              "query": [
+                {
+                  "description": "(Required) The task ID returned by an editing request.",
+                  "key": "id",
+                  "value": "<uuid>"
+                }
+              ]
+            },
+            "description": "Polls the status of an asynchronous image editing task. Returns the current status (Pending, Processing, Ready, Error, or Content Moderated). When status is Ready, the result object contains a pre-signed sample URL to download the edited image."
+          },
+          "response": [
+            {
+              "id": "4c377db0-322f-4de7-9290-1176a837a90a",
+              "name": "Task status and result (if ready).",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "X-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/get_result?id=<uuid>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "get_result"
+                  ],
+                  "query": [
+                    {
+                      "description": "(Required) The task ID returned by an editing request.",
+                      "key": "id",
+                      "value": "<uuid>"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"id\": \"<uuid>\",\n  \"status\": \"Content Moderated\",\n  \"result\": {\n    \"sample\": \"<uri>\",\n    \"prompt\": \"<string>\",\n    \"seed\": \"<integer>\"\n  }\n}",
+              "createdAt": "2026-07-28T01:40:55.000Z",
+              "updatedAt": "2026-07-28T01:40:55.000Z",
+              "uid": "35240-4c377db0-322f-4de7-9290-1176a837a90a"
+            },
+            {
+              "id": "10e47bc7-0627-40ff-a23d-5a181b47c305",
+              "name": "Unauthorized.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "X-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/get_result?id=<uuid>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "get_result"
+                  ],
+                  "query": [
+                    {
+                      "description": "(Required) The task ID returned by an editing request.",
+                      "key": "id",
+                      "value": "<uuid>"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"detail\": \"<string>\",\n  \"status_code\": \"<integer>\"\n}",
+              "createdAt": "2026-07-28T01:40:55.000Z",
+              "updatedAt": "2026-07-28T01:40:55.000Z",
+              "uid": "35240-10e47bc7-0627-40ff-a23d-5a181b47c305"
+            },
+            {
+              "id": "261607fd-a10f-43f0-bde2-1ec8aae3857b",
+              "name": "Task not found.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "X-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/get_result?id=<uuid>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "get_result"
+                  ],
+                  "query": [
+                    {
+                      "description": "(Required) The task ID returned by an editing request.",
+                      "key": "id",
+                      "value": "<uuid>"
+                    }
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"detail\": \"<string>\",\n  \"status_code\": \"<integer>\"\n}",
+              "createdAt": "2026-07-28T01:40:55.000Z",
+              "updatedAt": "2026-07-28T01:40:55.000Z",
+              "uid": "35240-261607fd-a10f-43f0-bde2-1ec8aae3857b"
+            }
+          ],
+          "createdAt": "2026-07-28T01:40:55.000Z",
+          "updatedAt": "2026-07-28T01:40:55.000Z",
+          "uid": "35240-5fc74214-b17f-481a-ae52-7a8e3ce7d0d9"
+        }
+      ],
+      "id": "4ceced5a-dddd-45d7-90f9-95de321ca62f",
+      "createdAt": "2026-07-28T01:40:55.000Z",
+      "updatedAt": "2026-07-28T01:40:55.000Z",
+      "uid": "35240-4ceced5a-dddd-45d7-90f9-95de321ca62f"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-Key",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.bfl.ai/v1"
+    }
+  ]
+}
