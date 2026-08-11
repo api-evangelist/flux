@@ -94,6 +94,11 @@ apis:
   - type: Documentation
     url: https://docs.bfl.ml/kontext/kontext_image_editing
 common:
+  - type: IssueTracker
+    url: https://github.com/black-forest-labs/flux/issues
+  - type: License
+    name: Apache-2.0
+    url: https://github.com/black-forest-labs/flux/blob/main/LICENSE
   - type: PostmanWorkspace
     url: https://www.postman.com/kinlaneapi/flux/overview
   - type: AgenticAccess
