@@ -1,0 +1,235 @@
+{
+  "item": [
+    {
+      "id": "ac968e62-6715-4d8c-9cbb-63da7ac81626",
+      "name": "Results",
+      "description": {
+        "content": "Endpoints for polling the status and retrieving completed image editing results.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "f128418b-1361-4481-98c3-0d3b85404369",
+          "name": "Flux Poll for editing result",
+          "request": {
+            "name": "Flux Poll for editing result",
+            "description": {
+              "content": "Polls the status of an asynchronous image editing task. Returns the current status (Pending, Processing, Ready, Error, or Content Moderated). When status is Ready, the result object contains a pre-signed sample URL to download the edited image.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "get_result"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "id",
+                  "value": "<uuid>",
+                  "description": "(Required) The task ID returned by an editing request."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "299c6c80-00f2-4979-88fa-36213de695fd",
+              "name": "Task status and result (if ready).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "get_result"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "id",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"8425075e-0eed-bb16-4e00-171f4aa32460\",\n  \"status\": \"Error\",\n  \"result\": {\n    \"sample\": \"http://vCAcDaVxiguhdPySx.cevcuW9E8PupXZGsH2.eC+3CQTVbSO2d0g-JpO.P9dbIMHE.S9eGotule+\",\n    \"prompt\": \"string\",\n    \"seed\": 3417\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5beac88b-4586-4b79-aa69-a3f66777cb77",
+              "name": "Unauthorized.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "get_result"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "id",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": \"string\",\n  \"status_code\": 5498\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b075a047-3efe-4527-9e35-6746e8a574c5",
+              "name": "Task not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "get_result"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "id",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": \"string\",\n  \"status_code\": 5498\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.bfl.ai/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-Key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "deb4a9bb-681a-425b-99dd-db05588466c5",
+    "name": "Flux Image Editing Results API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "REST API for editing and transforming existing images using Black Forest Labs' FLUX.1 Kontext models. The Kontext models accept an input image and a text prompt describing desired edits, returning a modified image. They support context-aware in-painting, object replacement, style transfer, background changes, and image-to-image transformations while preserving important visual context. Authentication requires an API key in the X-Key header. Requests are asynchronous and require polling for results.\n\nContact Support:\n Name: Black Forest Labs Support",
+      "type": "text/plain"
+    }
+  }
+}
