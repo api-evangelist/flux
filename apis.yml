@@ -4,6 +4,20 @@ description: >-
   An open-source text-to-image AI model developed by Black Forest Labs that generates high-quality images from text
   prompts with improved prompt following and visual quality.
 type: Index
+deliveryModel:
+  model: open-core
+  license: Apache-2.0
+  open_source: true
+  commercial: true
+  callable_host: true
+  label: Open core · an OSS project plus a commercial hosted product
+  confidence: high
+  source:
+  - license
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: freemium
   onboarding: self-serve
