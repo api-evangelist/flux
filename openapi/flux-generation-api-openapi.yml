@@ -1,7 +1,7 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Flux Image Editing Generation API
-  description: REST API for editing and transforming existing images using Black Forest Labs' FLUX.1 Kontext models. The Kontext models accept an input image and a text prompt describing desired edits, returning a modified image. They support context-aware in-painting, object replacement, style transfer, background changes, and image-to-image transformations while preserving important visual context. Authentication requires an API key in the X-Key header. Requests are asynchronous and require polling for results.
+  title: Flux Image Generation API
+  description: REST API for generating images from text prompts using Black Forest Labs' FLUX models including FLUX.1 [pro], FLUX.1 [dev], FLUX.1 [schnell], and FLUX 1.1 [pro] variants. The API uses an asynchronous pattern where a generation request returns a task ID and polling URL. The caller then polls the result endpoint until the image is ready. Authentication requires an API key passed in the X-Key header.
   version: v1
   contact:
     name: Black Forest Labs Support
@@ -208,28 +208,51 @@ paths:
                 $ref: '#/components/schemas/ValidationErrorResponse'
 components:
   schemas:
-    TaskResponse:
+    FluxUltraGenerationRequest:
       type: object
-      description: Response returned when an image generation task is accepted. Contains the task ID and a polling URL for checking status.
+      description: Request body for FLUX 1.1 [pro] Ultra image generation. Supports higher resolution outputs and an optional raw mode for photorealistic results without additional artistic processing.
+      required:
+      - prompt
       properties:
-        id:
+        prompt:
           type: string
-          format: uuid
-          description: Unique identifier for the generation task. Use this ID to poll GET /v1/get_result for the result.
-        polling_url:
+          description: Text description of the image to generate.
+          maxLength: 10000
+        aspect_ratio:
           type: string
-          format: uri
-          description: Convenience URL for polling the result. Equivalent to GET /v1/get_result?id={id}.
-    ErrorResponse:
-      type: object
-      description: Error response returned when a request fails.
-      properties:
-        detail:
-          type: string
-          description: Human-readable error message describing the failure.
-        status_code:
+          description: Aspect ratio of the generated image. Ultra uses aspect ratios instead of explicit width/height.
+          enum:
+          - '21:9'
+          - '16:9'
+          - '4:3'
+          - '3:2'
+          - '1:1'
+          - '2:3'
+          - '3:4'
+          - '9:16'
+          - '9:21'
+          default: '16:9'
+        seed:
           type: integer
-          description: HTTP status code.
+          description: Random seed for reproducibility.
+          minimum: 0
+        safety_tolerance:
+          type: integer
+          description: Safety filter tolerance (0-6).
+          minimum: 0
+          maximum: 6
+          default: 2
+        output_format:
+          type: string
+          description: Output image format.
+          enum:
+          - jpeg
+          - png
+          default: jpeg
+        raw:
+          type: boolean
+          description: If true, generates more natural, less processed images with a more photorealistic aesthetic.
+          default: false
     FluxProGenerationRequest:
       type: object
       description: Request body for FLUX.1 [pro] and FLUX 1.1 [pro] image generation. Specifies the prompt, image dimensions, output format, and model quality parameters.
@@ -284,51 +307,6 @@ components:
           type: boolean
           description: If true, automatically enhances the prompt before generation using an LLM to improve image quality and prompt adherence.
           default: false
-    FluxUltraGenerationRequest:
-      type: object
-      description: Request body for FLUX 1.1 [pro] Ultra image generation. Supports higher resolution outputs and an optional raw mode for photorealistic results without additional artistic processing.
-      required:
-      - prompt
-      properties:
-        prompt:
-          type: string
-          description: Text description of the image to generate.
-          maxLength: 10000
-        aspect_ratio:
-          type: string
-          description: Aspect ratio of the generated image. Ultra uses aspect ratios instead of explicit width/height.
-          enum:
-          - '21:9'
-          - '16:9'
-          - '4:3'
-          - '3:2'
-          - '1:1'
-          - '2:3'
-          - '3:4'
-          - '9:16'
-          - '9:21'
-          default: '16:9'
-        seed:
-          type: integer
-          description: Random seed for reproducibility.
-          minimum: 0
-        safety_tolerance:
-          type: integer
-          description: Safety filter tolerance (0-6).
-          minimum: 0
-          maximum: 6
-          default: 2
-        output_format:
-          type: string
-          description: Output image format.
-          enum:
-          - jpeg
-          - png
-          default: jpeg
-        raw:
-          type: boolean
-          description: If true, generates more natural, less processed images with a more photorealistic aesthetic.
-          default: false
     ValidationErrorResponse:
       type: object
       description: Validation error response returned when the request body fails schema validation.
@@ -352,6 +330,16 @@ components:
               type:
                 type: string
                 description: Error type identifier.
+    ErrorResponse:
+      type: object
+      description: Error response returned when a request fails.
+      properties:
+        detail:
+          type: string
+          description: Human-readable error message describing the failure.
+        status_code:
+          type: integer
+          description: HTTP status code.
     FluxSchnellGenerationRequest:
       type: object
       description: Request body for FLUX.1 [schnell] image generation. Schnell is optimized for speed with fewer inference steps required.
@@ -397,6 +385,18 @@ components:
           - jpeg
           - png
           default: jpeg
+    TaskResponse:
+      type: object
+      description: Response returned when an image generation task is accepted. Contains the task ID and a polling URL for checking status.
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the generation task. Use this ID to poll GET /v1/get_result for the result.
+        polling_url:
+          type: string
+          format: uri
+          description: Convenience URL for polling the result. Equivalent to GET /v1/get_result?id={id}.
     FluxDevGenerationRequest:
       type: object
       description: Request body for FLUX.1 [dev] image generation. Similar to the pro request but with parameters tuned for the distilled dev model.
@@ -453,7 +453,7 @@ components:
       type: apiKey
       in: header
       name: X-Key
-      description: API key from the Black Forest Labs developer portal. Pass in the X-Key header for all authenticated requests.
+      description: API key obtained from the Black Forest Labs developer portal at https://api.bfl.ai. Pass the key in the X-Key request header for all authenticated endpoints.
 externalDocs:
-  description: Flux Kontext Image Editing Documentation
-  url: https://docs.bfl.ml/kontext/kontext_image_editing
+  description: Flux API Documentation
+  url: https://docs.bfl.ai/

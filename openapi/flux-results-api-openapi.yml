@@ -1,12 +1,12 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Flux Image Editing Results API
-  description: REST API for editing and transforming existing images using Black Forest Labs' FLUX.1 Kontext models. The Kontext models accept an input image and a text prompt describing desired edits, returning a modified image. They support context-aware in-painting, object replacement, style transfer, background changes, and image-to-image transformations while preserving important visual context. Authentication requires an API key in the X-Key header. Requests are asynchronous and require polling for results.
+  title: Flux Results API
   version: v1
   contact:
     name: Black Forest Labs Support
     url: https://docs.bfl.ai/
   termsOfService: https://bfl.ai/legal/flux-api-service-terms
+  description: 'Operations tagged Results across 2 of this provider''s published API definitions: flux-image-editing-openapi.yml, flux-image-generation-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.bfl.ai/v1
   description: Black Forest Labs Flux API
@@ -44,18 +44,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+    servers:
+    - url: https://api.bfl.ai/v1
+      description: Black Forest Labs Flux API
 components:
   schemas:
-    ErrorResponse:
-      type: object
-      description: Error response.
-      properties:
-        detail:
-          type: string
-          description: Human-readable error message.
-        status_code:
-          type: integer
-          description: HTTP status code.
     ResultResponse:
       type: object
       description: Response from the result polling endpoint. When status is Ready, the result contains a URL to download the edited image.
@@ -88,6 +81,58 @@ components:
             seed:
               type: integer
               description: The seed used for generation.
+    ErrorResponse:
+      type: object
+      description: Error response.
+      properties:
+        detail:
+          type: string
+          description: Human-readable error message.
+        status_code:
+          type: integer
+          description: HTTP status code.
+    ResultResponse_2:
+      type: object
+      description: Response from the result polling endpoint. When status is Ready, the sample field contains a pre-signed URL to download the generated image.
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: The task ID.
+        status:
+          type: string
+          description: Current status of the generation task.
+          enum:
+          - Pending
+          - Processing
+          - Ready
+          - Error
+          - Content Moderated
+          - Request Moderated
+        result:
+          type: object
+          description: Generation result, present only when status is Ready.
+          properties:
+            sample:
+              type: string
+              format: uri
+              description: Pre-signed URL to download the generated image. Expires after a short time (typically a few minutes).
+            prompt:
+              type: string
+              description: The prompt used for generation (may differ if prompt_upsampling was used).
+            seed:
+              type: integer
+              description: The seed used for generation.
+    ErrorResponse_2:
+      type: object
+      description: Error response returned when a request fails.
+      properties:
+        detail:
+          type: string
+          description: Human-readable error message describing the failure.
+        status_code:
+          type: integer
+          description: HTTP status code.
   parameters:
     taskIdParam:
       name: id
@@ -97,12 +142,20 @@ components:
       schema:
         type: string
         format: uuid
+    taskIdParam_2:
+      name: id
+      in: query
+      required: true
+      description: The task ID returned by a generation request.
+      schema:
+        type: string
+        format: uuid
   securitySchemes:
     apiKeyAuth:
       type: apiKey
       in: header
       name: X-Key
       description: API key from the Black Forest Labs developer portal. Pass in the X-Key header for all authenticated requests.
-externalDocs:
-  description: Flux Kontext Image Editing Documentation
-  url: https://docs.bfl.ml/kontext/kontext_image_editing
+x-refined-from:
+- flux-image-editing-openapi.yml
+- flux-image-generation-openapi.yml

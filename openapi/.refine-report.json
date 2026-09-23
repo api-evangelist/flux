@@ -1,18 +1,27 @@
 {
   "provider": "flux",
   "sources": [
-    "flux-editing-api-openapi.yml",
-    "flux-generation-api-openapi.yml",
-    "flux-results-api-openapi.yml"
+    "_original/flux-image-editing-openapi.yml",
+    "_original/flux-image-generation-openapi.yml"
   ],
   "outputs": [
     "flux-editing-api-openapi.yml",
-    "flux-generation-api-openapi.yml",
-    "flux-results-api-openapi.yml"
+    "flux-results-api-openapi.yml",
+    "flux-generation-api-openapi.yml"
   ],
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (2 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "flux-image-editing-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "flux-image-generation-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "tag 'Results' spans 2 source specs (flux-image-editing-openapi.yml, flux-image-generation-openapi.yml): per-path servers applied",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "flux-editing-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "flux-generation-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "flux-results-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
